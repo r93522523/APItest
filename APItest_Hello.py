@@ -2,12 +2,18 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+AUTH_TOKEN = "my_secret_token"
+
 @app.route('/hello', methods=['GET'])
 def hello():
     return jsonify({'message': 'Hello, world!'})
 
 @app.route('/echo', methods=['POST'])
 def echo():
+    auth_header = request.headers.get('Authorization')    
+    if auth_header != f"Bearer {AUTH_TOKEN}":
+        return jsonify({"error": "Unauthorized"}), 401
+    
     data = request.json
     return jsonify({'you_sent': data})
 
