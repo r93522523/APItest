@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-AUTH_TOKEN = "my_secret_token"
+AUTH_TOKEN = os.getenv("API_TOKEN", "default_token")
 
 @app.route('/hello', methods=['GET'])
 def hello():
